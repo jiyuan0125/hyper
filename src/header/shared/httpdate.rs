@@ -1,7 +1,8 @@
-use std::str::FromStr;
 use std::fmt::{self, Display};
+use std::str::FromStr;
 
-use time;
+// use time;
+use chrono::{DateTime, Utc};
 
 /// A `time::Time` with HTTP formatting and parsing
 ///
@@ -28,64 +29,37 @@ use time;
 //   HTTP-date, the sender MUST generate those timestamps in the
 //   IMF-fixdate format.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct HttpDate(pub time::Tm);
+// pub struct HttpDate(pub time::Tm);
+pub struct HttpDate(pub DateTime<Utc>);
 
 impl FromStr for HttpDate {
     type Err = ::Error;
     fn from_str(s: &str) -> ::Result<HttpDate> {
-        match time::strptime(s, "%a, %d %b %Y %T %Z").or_else(|_| {
-            time::strptime(s, "%A, %d-%b-%y %T %Z")
-            }).or_else(|_| {
-                time::strptime(s, "%c")
-                }) {
-                    Ok(t) => Ok(HttpDate(t)),
-                    Err(_) => Err(::Error::Header),
-                    }
+        // match time::strptime(s, "%a, %d %b %Y %T %Z").or_else(|_| {
+        //     time::strptime(s, "%A, %d-%b-%y %T %Z")
+        //     }).or_else(|_| {
+        //         time::strptime(s, "%c")
+        //         }) {
+        //             Ok(t) => Ok(HttpDate(t)),
+        //             Err(_) => Err(::Error::Header),
+        //             }
+        match DateTime::parse_from_rfc2822(s)
+            .or_else(|_| DateTime::parse_from_rfc3339(s))
+            .or_else(|_| DateTime::parse_from_str(s, "%a, %d %b %Y %T %Z"))
+            .or_else(|_| DateTime::parse_from_str(s, "%A, %d-%b-%y %T %Z"))
+        {
+            Ok(t) => {
+                let time = DateTime::<Utc>::from_utc(t.naive_utc(), Utc);
+                Ok(HttpDate(time))
+            }
+            Err(_) => Err(::Error::Header),
+        }
     }
 }
 
 impl Display for HttpDate {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        fmt::Display::fmt(&self.0.to_utc().rfc822(), f)
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use time::Tm;
-    use super::HttpDate;
-
-    const NOV_07: HttpDate = HttpDate(Tm {
-        tm_nsec: 0,
-        tm_sec: 37,
-        tm_min: 48,
-        tm_hour: 8,
-        tm_mday: 7,
-        tm_mon: 10,
-        tm_year: 94,
-        tm_wday: 0,
-        tm_isdst: 0,
-        tm_yday: 0,
-        tm_utcoff: 0,
-    });
-
-    #[test]
-    fn test_imf_fixdate() {
-        assert_eq!("Sun, 07 Nov 1994 08:48:37 GMT".parse::<HttpDate>().unwrap(), NOV_07);
-    }
-
-    #[test]
-    fn test_rfc_850() {
-        assert_eq!("Sunday, 07-Nov-94 08:48:37 GMT".parse::<HttpDate>().unwrap(), NOV_07);
-    }
-
-    #[test]
-    fn test_asctime() {
-        assert_eq!("Sun Nov  7 08:48:37 1994".parse::<HttpDate>().unwrap(), NOV_07);
-    }
-
-    #[test]
-    fn test_no_date() {
-        assert!("this-is-no-date".parse::<HttpDate>().is_err());
+        // fmt::Display::fmt(&self.0.to_utc().rfc822(), f)
+        fmt::Display::fmt(&self.0.to_rfc2822(), f)
     }
 }

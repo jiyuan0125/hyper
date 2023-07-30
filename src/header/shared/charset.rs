@@ -1,3 +1,4 @@
+#![allow(deprecated)]
 use std::fmt::{self, Display};
 use std::str::FromStr;
 

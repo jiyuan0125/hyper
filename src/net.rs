@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects, deprecated)]
 //! A collection of traits abstracting over Listeners and Streams.
 use std::any::{Any, TypeId};
 use std::fmt;

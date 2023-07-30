@@ -129,7 +129,8 @@
 //!
 
 extern crate base64;
-extern crate time;
+// extern crate time;
+extern crate chrono;
 #[macro_use] extern crate url;
 extern crate unicase;
 extern crate httparse;

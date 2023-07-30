@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects)]
 //! Client Requests
 use std::marker::PhantomData;
 use std::io::{self, Write};

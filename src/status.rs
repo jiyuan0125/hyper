@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects, deprecated)]
 //! HTTP status codes
 use std::fmt;
 use std::cmp::Ordering;

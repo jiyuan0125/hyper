@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects, deprecated)]
 use std::cmp;
 use std::default::Default;
 use std::fmt;

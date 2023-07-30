@@ -1,3 +1,4 @@
+#![allow(deprecated, bare_trait_objects)]
 //! Defines the `HttpMessage` trait that serves to encapsulate the operations of a single
 //! request-response cycle on any HTTP connection.
 

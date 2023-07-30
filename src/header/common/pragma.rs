@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects, deprecated)]
 use std::fmt;
 
 #[allow(unused_imports)]

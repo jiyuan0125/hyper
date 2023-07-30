@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects, deprecated)]
 //! Server Requests
 //!
 //! These are requests that a `hyper::Server` receives, and include its method,

@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects)]
 //! Client Responses
 use std::io::{self, Read};
 

@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects, deprecated)]
 use std::fmt;
 use std::borrow::Cow;
 use std::str::FromStr;

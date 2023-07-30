@@ -1,3 +1,4 @@
+#![allow(deprecated, bare_trait_objects)]
 //! Error and Result module.
 use std::error::Error as StdError;
 use std::fmt;

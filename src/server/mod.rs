@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects)]
 //! HTTP Server
 //!
 //! # Server

@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects)]
 //! Headers container, and common header fields.
 //!
 //! hyper has the opinion that Headers should be strongly-typed, because that's

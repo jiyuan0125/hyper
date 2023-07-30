@@ -1,3 +1,4 @@
+#![allow(bare_trait_objects, deprecated)]
 //! HTTP RequestUris
 use std::fmt::{Display, self};
 use std::str::FromStr;
