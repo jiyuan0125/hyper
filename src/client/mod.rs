@@ -320,8 +320,8 @@ impl<'a> RequestBuilder<'a> {
                 Request::with_headers_and_message(method.clone(), url.clone(), headers, message)
             };
 
-            try!(req.set_write_timeout(client.write_timeout));
-            try!(req.set_read_timeout(client.read_timeout));
+            // try!(req.set_write_timeout(client.write_timeout));
+            // try!(req.set_read_timeout(client.read_timeout));
 
             match (can_have_body, body.as_ref()) {
                 (true, Some(body)) => match body.size() {
